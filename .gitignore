@@ -35,3 +35,63 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+
+# dotnet core app settings
+/*/appsettings.json
+/*/appsettings.production.json
+/*/appsettings.development.json
+
+# webapi app settings
+/*/web.config
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/packages/repositories.config
+# NuGet v3's project.json files produces more ignoreable files
+*.nuget.props
+*.nuget.targets
+
+# Microsoft Azure Build Output
+csx/
+*.build.csdef
+
+# Microsoft Azure Emulator
+ecf/
+rcf/
+
+# Visual Studio cache files
+# files ending in .cache can be ignored
+*.[Cc]ache
+# but keep track of directories ending in .cache
+!*.[Cc]ache/
+
+# Node
+/**/node_modules
+/**/package-lock.json
+
+# Visual Studio Code
+.vscode/
+/javascript_nodejs/.DS_Store
+.DS_Store
+generators/generator-botbuilder/.npmrc
+/samples/javascript_es6/01.a.browser-echo/dist
+/generators/generator-botbuilder/package-lock.json
+package-lock.json
+tsconfig.tsbuildinfo
+
+# Visual Studio
+appsettings.Development.json
+.config/
+
+# Python
+__pycache__/
+env/
