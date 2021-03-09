@@ -5,9 +5,6 @@ project.lock.json
 *.pyc
 nupkg/
 
-# Visual Studio Code
-NetCore_Learning/.vscode
-
 # Rider
 .idea
 
