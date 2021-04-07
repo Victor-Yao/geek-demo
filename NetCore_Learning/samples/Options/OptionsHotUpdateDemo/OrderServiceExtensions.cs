@@ -13,10 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddOptions<OrderServiceOptions>().Configure(options =>
             {
                 configuration.GetSection("OrderService").Bind(options);
-            }).Validate(options =>
-            {
-                return options.MaxOrderCount <= 1000;
-            }, "MaxOrderCount cannot greater than 100");
+            }).ValidateDataAnnotations();
 
             // services.PostConfigure<OrderServiceOptions>(options =>
             // {
