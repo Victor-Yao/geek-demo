@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using OptionsHotUpdateDemo.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -13,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddOptions<OrderServiceOptions>().Configure(options =>
             {
                 configuration.GetSection("OrderService").Bind(options);
-            }).ValidateDataAnnotations();
+            }).Services.AddSingleton<IValidateOptions<OrderServiceOptions>, OrderServiceValidateOptions>();
 
             // services.PostConfigure<OrderServiceOptions>(options =>
             // {
