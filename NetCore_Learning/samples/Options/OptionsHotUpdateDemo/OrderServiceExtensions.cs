@@ -8,11 +8,20 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddMyOrderService(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<OrderServiceOptions>(configuration.GetSection("OrderService"));
+            // services.Configure<OrderServiceOptions>(configuration.GetSection("OrderService"));
 
-            services.PostConfigure<OrderServiceOptions>(options => {
-                options.MaxOrderCount += 100;
-            });
+            services.AddOptions<OrderServiceOptions>().Configure(options =>
+            {
+                configuration.GetSection("OrderService").Bind(options);
+            }).Validate(options =>
+            {
+                return options.MaxOrderCount <= 1000;
+            }, "MaxOrderCount cannot greater than 100");
+
+            // services.PostConfigure<OrderServiceOptions>(options =>
+            // {
+            //     options.MaxOrderCount += 100;
+            // });
 
             services.AddSingleton<IOrderService, OrderService>();
             return services;
