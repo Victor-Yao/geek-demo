@@ -1,0 +1,17 @@
+{
+  "name": "32.geektime-playpage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^15.6.1",
+    "koa": "^2.13.3",
+    "koa-graphql": "^0.9.0"
+  }
+}
