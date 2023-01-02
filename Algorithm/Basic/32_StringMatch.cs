@@ -5,7 +5,7 @@ namespace Basic;
 */
 public static class StringMatch
 {
-    
+
     private static readonly int _size = 256; // bm - size of bad character hash table 
 
     /// <summary>
@@ -148,4 +148,77 @@ public static class StringMatch
         return m;
     }
 
+
+    /// <summary>
+    /// KMP算法
+    /// </summary>
+
+    /// Summary: kmp 算法主体
+    ///
+    /// Param:
+    ///   a: 主串
+    ///   b: 模式串
+    ///
+    /// Returns:
+    ///   需要移动的步数
+    public static int Kmp(string a, string b)
+    {
+        int n = a.Length;
+        int m = b.Length;
+        var next = GetNexts(b);
+        int j = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            while (j > 0 && a[i] != b[j]) // 发生不匹配
+            {
+                //计算模式串向后滑动的步数
+                j = next[j - 1] + 1;
+            }
+            if (a[i] == b[j])
+            {
+                ++j;
+            }
+
+            if (j == m)//匹配成功
+            {
+                return i - m + 1;
+            }
+        }
+
+        return -1;//匹配失败
+    }
+
+    /// Summary: kmp - 求解Next数组 (失效函数)
+    ///
+    /// Param:
+    ///   b: 模式串
+    ///
+    /// Returns:
+    ///   Next数组
+    private static int[] GetNexts(string b)
+    {
+        int m = b.Length;
+        int[] next = new int[m];
+
+        next[0] = -1;
+        int k = -1;
+
+        for (int i = 1; i < m; i++)
+        {
+            while (k != -1 && b[k + 1] != b[i])
+            { //mismatch, find the longest sub-string of prefix string
+                k = next[k];
+            }
+            if (b[k + 1] == b[i])
+            { // match, compare next char
+                k++;
+            }
+
+            // save the index of the last char of matched prefix sub-string
+            next[i] = k;
+        }
+
+        return next;
+    }
 }
