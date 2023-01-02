@@ -28,4 +28,38 @@ public class StringMatchTest
         else
             Assert.AreEqual(2, index);
     }
+
+    [TestMethod]
+    [DataRow("abcde", "ab")] // begin
+    [DataRow("abcde", "bc")] // middle
+    [DataRow("abcde", "de")] // end
+    [DataRow("abcde", "er")] // mismatch
+    [DataRow("abcde", "c")] // single
+    [DataRow("abcde", "abcde")] // full
+    public void TestBF(string a, string b)
+    {
+        var index = StringMatch.Bf(a, b);
+
+        switch (b)
+        {
+            case "ab": 
+                Assert.AreEqual(0, index);
+                break;
+            case "bc": 
+                Assert.AreEqual(1, index);
+                break;
+            case "de": 
+                Assert.AreEqual(3, index);
+                break;
+            case "er": 
+                Assert.AreEqual(-1, index);
+                break;
+            case "c": 
+                Assert.AreEqual(2, index);
+                break;
+            case "abcde": 
+                Assert.AreEqual(0, index);
+                break;
+        }
+    }
 }

@@ -224,4 +224,36 @@ public static class StringMatch
 
         return next;
     }
+
+    /// <summary>
+    /// Brute Force算法
+    /// </summary>
+    /// Param:
+    ///   a: 主串
+    ///   b: 模式串
+    ///
+    /// Returns:
+    ///   matched index
+    ///   mismatched, -1
+    public static int Bf(string a, string b)
+    {
+        int n = a.Length;
+        int m = b.Length;
+
+        for (int i = 0; i < n - m + 1; i++)
+        {
+            int j = 0;
+            while (j < m && a[i + j] == b[j])
+            {
+                ++j;
+            }
+
+            if (j == m)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }
