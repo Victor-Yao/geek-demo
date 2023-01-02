@@ -37,14 +37,11 @@ public static class StringMatch
     ///
     /// Param:
     ///   a: 主串
-    ///   n: 主串长度
     ///   b: 模式串
-    ///   m: 模式串长度
-    ///   bc: 坏字符哈希表 
     ///
     /// Returns:
-    ///   i, 成功返回第一个匹配的字符的位置
-    ///   -1, 匹配失败
+    ///   matched, the head index of matched string in the main string
+    ///   mismatched, -1
     public static int Bm(string a, string b)
     {
         int n = a.Length;
@@ -94,8 +91,6 @@ public static class StringMatch
     ///   suffix: 下标是子串长度，元素是子串的起始下标值
     ///   prefix: 好后缀的后缀子串是否能匹配模式串的前缀子串
     ///
-    /// Returns:
-    ///   需要移动的步数
     private static void GenerateGS(char[] b, int m, int[] suffix, bool[] prefix)
     {
         for (int i = 0; i < m; ++i)
@@ -159,11 +154,12 @@ public static class StringMatch
     /// Summary: kmp 算法主体
     ///
     /// Param:
-    ///   a: 主串
-    ///   b: 模式串
+    ///   a: main string
+    ///   b: pattern string
     ///
     /// Returns:
-    ///   需要移动的步数
+    ///   matched, the head index of matched string in the main string
+    ///   mismatched, -1
     public static int Kmp(string a, string b)
     {
         int n = a.Length;
@@ -195,10 +191,10 @@ public static class StringMatch
     /// Summary: kmp - 求解Next数组 (失效函数)
     ///
     /// Param:
-    ///   b: 模式串
+    ///   b: pattern string
     ///
     /// Returns:
-    ///   Next数组
+    ///   next array
     private static int[] GetNexts(string b)
     {
         int m = b.Length;
@@ -226,14 +222,14 @@ public static class StringMatch
     }
 
     /// <summary>
-    /// Brute Force算法
+    /// Brute Force
     /// </summary>
     /// Param:
-    ///   a: 主串
-    ///   b: 模式串
+    ///   a: main string
+    ///   b: pattern string
     ///
     /// Returns:
-    ///   matched index
+    ///   matched, the head index of matched string in the main string
     ///   mismatched, -1
     public static int Bf(string a, string b)
     {
