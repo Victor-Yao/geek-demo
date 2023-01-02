@@ -45,14 +45,17 @@ public static class StringMatch
     /// Returns:
     ///   i, 成功返回第一个匹配的字符的位置
     ///   -1, 匹配失败
-    public static int Bm(char[] a, int n, char[] b, int m)
+    public static int Bm(string a, string b)
     {
+        int n = a.Length;
+        int m = b.Length;
+
         int[] bc = new int[_size]; //记录模式串中每个字符最后出现的位置
-        GenerateBC(b, m, bc); //构建坏字符哈希表
+        GenerateBC(b.ToCharArray(), m, bc); //构建坏字符哈希表
 
         int[] suffix = new int[m];
         bool[] prefix = new bool[m];
-        GenerateGS(b, m, suffix, prefix);
+        GenerateGS(b.ToCharArray(), m, suffix, prefix);
 
         int i = 0; //主串与模式串对齐的第一个字符
         while (i <= n - m)

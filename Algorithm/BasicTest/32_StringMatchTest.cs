@@ -4,19 +4,16 @@ namespace BasicTest;
 public class StringMatchTest
 {
     [TestMethod]
-    [DataRow("cabcab", "bc")]
+    [DataRow("cabacab", "bc")]
     [DataRow("qwertasdfzxc", "ert")]
-    public void TestBM(string main, string pattern)
+    public void TestBM(string a, string b)
     {
-        char[] a = main.ToCharArray();
-        char[] b = pattern.ToCharArray();
-        var n = a.Length;
-        var m = b.Length;
+        var index = StringMatch.Bm(a, b);
 
-        var ret = StringMatch.Bm(a, n, b, m);
-
-        Assert.AreNotEqual(-1, ret);
-        Console.WriteLine($"index: {ret}");
+        if(a=="cabacab")
+            Assert.AreEqual(-1, index);
+        else
+            Assert.AreEqual(2, index);
     }
 
     [TestMethod]
@@ -26,7 +23,7 @@ public class StringMatchTest
     {
         var index = StringMatch.Kmp(main, pattern);
 
-        if(main == "ababaeabac")
+        if (main == "ababaeabac")
             Assert.AreEqual(-1, index);
         else
             Assert.AreEqual(2, index);
