@@ -10,7 +10,7 @@ public class StringMatchTest
     {
         var index = StringMatch.Bm(a, b);
 
-        if(a=="cabacab")
+        if (a == "cabacab")
             Assert.AreEqual(-1, index);
         else
             Assert.AreEqual(2, index);
@@ -42,24 +42,56 @@ public class StringMatchTest
 
         switch (b)
         {
-            case "ab": 
+            case "ab":
                 Assert.AreEqual(0, index);
                 break;
-            case "bc": 
+            case "bc":
                 Assert.AreEqual(1, index);
                 break;
-            case "de": 
+            case "de":
                 Assert.AreEqual(3, index);
                 break;
-            case "er": 
+            case "er":
                 Assert.AreEqual(-1, index);
                 break;
-            case "c": 
+            case "c":
                 Assert.AreEqual(2, index);
                 break;
-            case "abcde": 
+            case "abcde":
                 Assert.AreEqual(0, index);
                 break;
         }
+    }
+
+    [TestMethod]
+    [DataRow("baddef", "def")]
+    [DataRow("baddef", "bad")]
+    [DataRow("baddef", "dde")]
+    [DataRow("baddef", "addef")]
+    [DataRow("baddef", "e")]
+    public void TestRK(string a, string b)
+    {
+        var index = StringMatch.Rk(a, b);
+
+        int expected=0;
+        switch (b)
+        {
+            case "def":
+                expected = 3;
+                break;
+            case "bad":
+                expected = 0;
+                break;
+            case "dde":
+                expected = 2;
+                break;
+            case "addef":
+                expected = 1;
+                break;
+            case "e":
+                expected = 4;
+                break;
+        }
+        Assert.AreEqual(expected, index);
     }
 }

@@ -252,4 +252,82 @@ public static class StringMatch
 
         return -1;
     }
+
+    /// <summary>
+    /// Rabin-Karp 算法
+    /// </summary>
+
+    /// Param:
+    ///   a: 主串
+    ///   b: 模式串
+    ///
+    /// Returns:
+    ///   matched, the head index of matched string in the main string
+    ///   mismatched, -1
+    public static int Rk(string a, string b)
+    {
+        int n = a.Length;
+        int m = b.Length;
+
+        // save the power of 26
+        var powers = new double[m];
+        for (int i = 0; i < m; i++)
+        {
+            powers[i] = Math.Pow(26, i);
+        }
+
+        var hashTable = MainStrHashArray(a.ToCharArray(), n, m, powers);
+
+        double b_hash = 0;
+        for (int i = 0; i < m; i++)
+        {
+            b_hash += ((int)b[i] - 97) * powers[m - i - 1];
+        }
+
+        for (int i = 0; i < hashTable.Length; i++)
+        {
+            if (hashTable[i] == b_hash)
+                return i;
+        }
+
+        return -1;
+    }
+
+    /// Summary: RK - 求解主串各个子串的hash表
+    ///
+    /// Param:
+    ///   a: 主串
+    ///   n: 主串长度
+    ///   m: 模式串长度
+    ///
+    /// Returns:
+    ///   next array
+    private static double[] MainStrHashArray(char[] a, int n, int m, double[] powers)
+    {
+        // a=97 ... z=122
+        var h = new double[n - m + 1];
+
+        for (int i = 0; i < n - m + 1; i++)
+        {
+            int j = 0;
+            double sum = 0;
+            if (i == 0)
+            {
+                while (j != m)
+                {
+                    sum += ((int)a[i + j] - 97) * powers[m - j - 1];
+                    ++j;
+                }
+                h[i] = sum;
+            }
+            else
+            {
+                h[i] = 26 * (h[i - 1] - powers[m - 1] * ((int)a[i - 1] - 97)) + ((int)a[i + m - 1] - 97);
+            }
+        }
+
+        return h;
+    }
+
+
 }
