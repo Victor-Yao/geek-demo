@@ -215,7 +215,7 @@ public class Dp2
 
     public static string Result { get; set; } = string.Empty;
     /// <summary>
-    /// Back Tracking - get the Longest Increasing Subsequence
+    /// Exercise: Back Tracking, get the Longest Increasing Subsequence
     /// {2, 9, 3, 6, 5, 1, 7} ==> {2, 3, 5, 7}, len=4
     /// </summary>
     /// Param:
@@ -244,7 +244,7 @@ public class Dp2
     }
 
     /// <summary>
-    /// Dynamic Programming, caculate the length of Longest Increasing Subsequence, not the subsequence 
+    /// Exercise: Dynamic Programming, caculate the length of Longest Increasing Subsequence, not the subsequence 
     /// </summary>
     /// Param:
     ///   input array
