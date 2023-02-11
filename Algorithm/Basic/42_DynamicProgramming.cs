@@ -1,10 +1,9 @@
-using Basic;
-
+namespace Basic;
 
 /// <summary>
 /// Edit distance of Dynamic Programming.
 /// </summary>
-public class Dp2
+public class EditDistance
 {
     private char[] _a;
     private char[] _b;
@@ -12,7 +11,7 @@ public class Dp2
     private int _bNum;
     public int MinDist { get; set; } = int.MaxValue;
 
-    public Dp2(string a, string b)
+    public EditDistance(string a, string b)
     {
         _a = a.ToCharArray();
         _aNum = a.Length;
@@ -164,13 +163,21 @@ public class Dp2
         return maxv;
     }
 
+
+}
+
+/// <summary>
+/// Question: caculate the length of the Longest Increasing Subsequence of a sequence.
+/// example: {2, 9, 3, 6, 5, 1, 7} ==> {2, 3, 5, 7}, len=4
+/// </summary>
+public class LongestIS
+{
     /// <summary>
-    /// get the Longest Increasing Subsequence
-    /// {2, 9, 3, 6, 5, 1, 7} ==> {2, 3, 5, 7}, len=4
+    /// solution without recurvise and dynamic programming.
     /// </summary>
     /// Param:
     ///   set: int array
-    public static List<int> LongestIS(int[] a)
+    public static List<int> GetLIS(int[] a)
     {
         var result = new List<int>();
 
@@ -215,8 +222,7 @@ public class Dp2
 
     public static string Result { get; set; } = string.Empty;
     /// <summary>
-    /// Exercise: Back Tracking, get the Longest Increasing Subsequence
-    /// {2, 9, 3, 6, 5, 1, 7} ==> {2, 3, 5, 7}, len=4
+    /// Back Tracking solution
     /// </summary>
     /// Param:
     ///   set: int array
@@ -244,7 +250,7 @@ public class Dp2
     }
 
     /// <summary>
-    /// Exercise: Dynamic Programming, caculate the length of Longest Increasing Subsequence, not the subsequence 
+    /// Dynamic programming solution
     /// </summary>
     /// Param:
     ///   input array
@@ -262,7 +268,6 @@ public class Dp2
         {
             for (int j = 0; j < i; j++)
             {
-                Console.WriteLine($"i={i}, j={j}, arr_i[{i}] = {array[i]}, arr_j[{j}] = {array[j]}], max_i[{i}]={maxLen[i]}, max_j[{j}]={maxLen[j]}");
                 if (array[i] > array[j])
                     maxLen[i] = Math.Max(maxLen[i], maxLen[j] + 1);
             }

@@ -1,51 +1,92 @@
 namespace BasicTest;
 
 [TestClass]
-public class DPTest
+public class KnapsackTest
 {
     [TestMethod]
-    [DataRow(new int[] { 2, 2, 4, 6, 3 }, 5, 9)]
-    public void TestKnapsack(int[] weight, int n, int w)
-    {
-        var dp = new Dp();
-        var ret = dp.Knapsack(weight, n, w);
-        Assert.AreEqual(9, ret);
-    }
-
-    [TestMethod]
-    [DataRow(new int[] { 2, 2, 4, 6, 3 }, 5, 9)]
-    public void TestKnapsack2(int[] weight, int n, int w)
-    {
-        var dp = new Dp();
-        var ret = dp.Knapsack2(weight, n, w);
-        Assert.AreEqual(9, ret);
-    }
-
-
-    [TestMethod]
-    [DataRow(new int[] { 2, 2, 4, 6, 3 }, new int[] { 3, 4, 8, 9, 6 }, 9)]
-    public void TestBTKnapsack(int[] weights, int[] values, int wLimit)
-    {
-        var bt = new BT(weights, values, wLimit);
-        bt.f(0, 0, 0);
-        Assert.AreEqual(18, bt.MaxV);
-    }
-
-    [TestMethod]
     [DataRow(new int[] { 2, 2, 4, 6, 3 }, 9)]
-    public void TestBTKnapsack1(int[] weights, int wLimit)
+    public void TestBT(int[] weights, int wLimit)
     {
-        var bt = new BT(weights, null, wLimit);
-        bt.f1(0, 0);
-        Assert.AreEqual(18, bt.MaxV);
+        var ks = new Knapsack(weights, wLimit);
+        ks.BT(0, 0);
+        Assert.AreEqual(9, ks.MaxW);
+    }
+
+    [TestMethod]
+    [DataRow(new int[] { 2, 2, 4, 6, 3 }, 5, 9)]
+    public void TestDP2D(int[] weight, int n, int w)
+    {
+        var ret = Knapsack.DP2D(weight, n, w);
+        Assert.AreEqual(9, ret);
+    }
+
+    [TestMethod]
+    [DataRow(new int[] { 2, 2, 4, 6, 3 }, 5, 9)]
+    public void TestDP1D(int[] weight, int n, int w)
+    {
+        var ret = Knapsack.DP1D(weight, n, w);
+        Assert.AreEqual(9, ret);
+    }
+}
+
+[TestClass]
+public class AdvancedKnapsackTest
+{
+    [TestMethod]
+    [DataRow(new int[] { 2, 2, 4, 6, 3 }, new int[] { 3, 4, 8, 9, 6 }, 9)]
+    public void TestBT(int[] weights, int[] values, int wLimit)
+    {
+        var ak = new AdvancedKnapsack(weights, values, wLimit);
+        ak.BT(0, 0, 0);
+        Assert.AreEqual(18, ak.MaxV);
     }
 
     [TestMethod]
     [DataRow(new int[] { 2, 2, 4, 6, 3 }, new int[] { 3, 4, 8, 9, 6 }, 9)]
-    public void TestKnapsack3(int[] weights, int[] values, int w)
+    public void TestDP(int[] weights, int[] values, int w)
     {
-        var dp = new Dp();
-        var maxV = dp.Knapsack3(weights, values, weights.Length, w);
+        var maxV = AdvancedKnapsack.DP(weights, values, weights.Length, w);
         Assert.AreEqual(18, maxV);
+    }
+}
+
+[TestClass]
+public class YanghuiTriangeTest
+{
+    // int[,] matrix = new int[,] { { 5, 0, 0, 0, 0 }, { 7, 8, 0, 0, 0 }, { 2, 3, 4, 0, 0 }, { 4, 9, 6, 1, 0 }, { 2, 7, 9, 4, 5 } };
+    int[][] triangle = new int[5][]{
+        new int[] {5},
+        new int[] {7, 8},
+        new int[] {2, 3, 4},
+        new int[] {4, 9, 6, 1},
+        new int[] {2, 7, 9, 4, 5}};
+
+    [TestMethod]
+    public void TestTriangleGreedy()
+    {
+        var ret = YanghuiTriangle.Greedy(triangle);
+        Assert.AreEqual(20, ret);
+    }
+
+    [TestMethod]
+    public void TestTriangleBT()
+    {
+        var tri = new YanghuiTriangle();
+        tri.BT(0, 0, 0, triangle);
+        Assert.AreEqual(20, tri.MinLen);
+    }
+
+    [TestMethod]
+    public void TestTriangleDP1()
+    {
+        var ret = YanghuiTriangle.DP1(triangle);
+        Assert.AreEqual(20, ret);
+    }
+
+    [TestMethod]
+    public void TestTriangleDP2()
+    {
+        var ret = YanghuiTriangle.DP2(triangle);
+        Assert.AreEqual(20, ret);
     }
 }

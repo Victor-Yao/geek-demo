@@ -1,14 +1,55 @@
-using Basic;
+namespace Basic;
 
-/** 
-* @Desc: Dynamic Programming ABC. 
-*/
-public class Dp
+/// <summary>
+/// Basic 0-1 knapsack problem 
+/// </summary>
+public class Knapsack
 {
-    public int Count { get; set; } = 0;
+    private int[] _weights;
+    private int _n; // total number of items
+    private int _w; // weight limit
+
+    public Knapsack(int[] weights, int wLimit)
+    {
+        _weights = weights;
+        _n = weights.Length;
+        _w = wLimit;
+        _mem = new bool[_n, _w + 1];
+    }
+
+    private bool[,] _mem;
+    public int MaxW { set; get; } = int.MinValue;
+    /// <summary>
+    /// Back Tracking with Mem
+    /// </summary>
+    /// Param:
+    ///   i: the index of item need to be checked weither load or not.
+    ///   cw: current weight
+    ///   cv: current value
+    /// Return:
+    ///     nod return
+    /// call example:
+    ///     f(0,0,0)
+    public void BT(int i, int cw)
+    {
+        if (cw == _w || i == _n)
+        {
+            if (cw > MaxW)
+                MaxW = cw;
+            return;
+        }
+
+        if (_mem[i, cw]) // 重复状态
+            return;
+        _mem[i, cw] = true;
+
+        BT(i + 1, cw); // don't add i
+        if (cw + _weights[i] <= _w)
+            BT(i + 1, cw + _weights[i]); // add i
+    }
 
     /// <summary>
-    /// basic 0-1 knapsack problem. 2D array DP solution 
+    /// 2D array solution of Dynamic Programming
     /// </summary>
     /// Param:
     ///   weight: items weight array
@@ -16,7 +57,7 @@ public class Dp
     ///   w: weight limit
     /// Return:
     ///     maximum weight sum
-    public int Knapsack(int[] weight, int n, int w)
+    public static int DP2D(int[] weight, int n, int w)
     {
         bool[,] states = new bool[n, w + 1];
         states[0, 0] = true; // 第一行数据需要特殊处理，可以利用哨兵
@@ -33,7 +74,7 @@ public class Dp
                     states[i, j] = states[i - 1, j];
             }
 
-            for (int j = 0; j < w - weight[i]; j++)// 把第i个物品放入背包
+            for (int j = 0; j <= w - weight[i]; j++)// 把第i个物品放入背包
             {
                 if (states[i - 1, j] == true)
                     states[i, j + weight[i]] = true;
@@ -50,7 +91,7 @@ public class Dp
     }
 
     /// <summary>
-    /// basic 0-1 knapsack problem. 1D array DP solution 
+    /// 1D array solution of Dynamic Programming
     /// </summary>
     /// Param:
     ///   weight: items weight array
@@ -58,7 +99,7 @@ public class Dp
     ///   w: weight limit
     /// Return:
     ///     maximum weight sum
-    public int Knapsack2(int[] weight, int n, int w)
+    public static int DP1D(int[] weight, int n, int w)
     {
         var states = new bool[w + 1];
         states[0] = true;
@@ -84,10 +125,56 @@ public class Dp
 
         return 0;
     }
+}
 
+/// <summary>
+/// advanced 0-1 knapsack problem
+/// </summary>
+public class AdvancedKnapsack
+{
+
+    public int MaxV { get; set; } = int.MinValue;
+    private int[] _weights;
+    private int[] _values;
+    private int _n; // total number of items
+    private int _w; // weight limit
+
+    public AdvancedKnapsack(int[] weights, int[] values, int wLimit)
+    {
+        _weights = weights;
+        _values = values;
+        _n = weights.Length;
+        _w = wLimit;
+    }
 
     /// <summary>
-    /// advanced 0-1 knapsack problem.
+    /// advanced 0-1 knapsack problem. Back Tracking solution.
+    /// BT(0,0,0)
+    /// </summary>
+    /// Param:
+    ///   i: the index of item need to be checked weither load or not.
+    ///   cw: current weight
+    ///   cv: current value
+    public void BT(int i, int cw, int cv)
+    {
+        if (cw == _w || i == _n)
+        {
+            if (cv > MaxV)
+                MaxV = cv;
+
+            return;
+        }
+
+        BT(i + 1, cw, cv); // don't add i 
+
+        if (cw + _weights[i] <= _w)
+        {
+            BT(i + 1, cw + _weights[i], cv + _values[i]); // add i
+        }
+    }
+
+    /// <summary>
+    /// Dynamic Programming solution
     /// </summary>
     /// Param:
     ///   weight: items weight array
@@ -95,8 +182,8 @@ public class Dp
     ///   n: number of items
     ///   w: weight limit
     /// Return:
-    ///     maximum weight sum
-    public int Knapsack3(int[] weights, int[] values, int n, int w)
+    ///     maximum weight
+    public static int DP(int[] weights, int[] values, int n, int w)
     {
         var states = new int[n, w + 1];
         for (int i = 0; i < n; i++)
@@ -142,15 +229,13 @@ public class Dp
     }
 
     /// <summary>
-    /// 在满足双11满减活动的条件下，如何从购物车的n个商品中选出的商品总价最小。
+    /// shopping cart discount problem (Double 11)- select 'n' goods from cart make the cost sum minimum and meet discount condition。
     /// </summary>
     /// Param:
     ///   prices: goods price array
     ///   n: number of goods
     ///   w: discount condition
-    /// Return:
-    ///     maximum weight sum
-    public void Double11Question(int[] prices, int n, int w)
+    public static void ShoppingDiscount(int[] prices, int n, int w)
     {
         int limit = 3 * w;// 超过满减条件3倍 没有意义
         var states = new bool[n, limit + 1];
@@ -196,82 +281,129 @@ public class Dp
     }
 }
 
-// backing trakcing solutions
-public class BT
+/// <summary>
+/// Exercise 40: caculate minimum path length of yanghui triangle.
+/// </summary>
+public class YanghuiTriangle
 {
-    public int MaxV { get; set; } = int.MinValue;
-    private int[] _weights;
-    private int[] _values;
-    private int _n; // total number of items
-    private int _w; // weight limit
-
-    public BT(int[] weights, int[] values, int wLimit)
-    {
-        _weights = weights;
-        _values = values;
-        _n = weights.Length;
-        _w = wLimit;
-        _mem = new bool[_n, _w + 1];
-    }
-
-
-    private bool[,] _mem;
-    public int MaxW { set; get; } = int.MinValue;
     /// <summary>
-    /// basic 0-1 knapsack problem. Back Tracking Mem solution.
+    /// Greedy solution
+    /// minLen[i] = minLen[i-1] + min(matrix[i][j], matrix[i][j+1])
     /// </summary>
     /// Param:
-    ///   i: the index of item need to be checked weither load or not.
-    ///   cw: current weight
-    ///   cv: current value
+    ///   matrix: yanghui triangle.
     /// Return:
-    ///     nod return
-    /// call example:
-    ///     f(0,0,0)
-    public void f1(int i, int cw)
+    ///     int: minimum path length
+    public static int Greedy(int[][] jagArray)
     {
-        if (cw == _w || i == _n)
+        int[] minLen = new int[jagArray.Length];
+        minLen[0] = jagArray[0][0];
+        int j = 0;
+        for (int i = 1; i < jagArray.Length; i++)
         {
-            if (cw > MaxW)
-                MaxW = cw;
+            if (jagArray[i][j] > jagArray[i][j + 1])
+            {
+                j++;
+                minLen[i] = minLen[i - 1] + jagArray[i][j + 1];
+            }
+            else
+                minLen[i] = minLen[i - 1] + jagArray[i][j];//j doesn't change
+        }
+
+        return minLen[jagArray.Length - 1];
+    }
+
+    public int MinLen { get; set; } = int.MaxValue;
+    /// <summary>
+    /// back tracking 
+    /// </summary>
+    /// Param:
+    ///   matrix: yanghui triangle.
+    /// Return:
+    ///     int: minimum path length
+    public void BT(int i, int j, int temp, int[][] jagArray)
+    {
+        if (j > i)
+            return;
+
+        if (i == jagArray.GetLength(0))
+        {
+            if (temp < MinLen)
+                MinLen = temp;
             return;
         }
 
-        if (_mem[i, cw]) // 重复状态
-            return;
-        _mem[i, cw] = true;
+        BT(i + 1, j, temp + jagArray[i][j], jagArray);
 
-        f1(i + 1, cw); // don't add i
-        if (cw + _weights[i] <= _w)
-            f1(i + 1, cw + _weights[i]); // add i
+        BT(i + 1, j + 1, temp + jagArray[i][j], jagArray);
     }
 
     /// <summary>
-    /// advanced 0-1 knapsack problem. Back Tracking solution.
+    /// dynamic programming solution 1 
+    /// S[i][j] = min(S[i-1][j],S[i-1][j-1]) + a[i][j]
     /// </summary>
     /// Param:
-    ///   i: the index of item need to be checked weither load or not.
-    ///   cw: current weight
-    ///   cv: current value
+    ///   matrix: yanghui triangle.
     /// Return:
-    ///     nod return
-    /// call example:
-    ///     f(0,0,0)
-    public void f(int i, int cw, int cv)
+    ///     int: minimum path length
+    public static int DP1(int[][] jagArray)
     {
-        if (cw == _w || i == _n)
+        var state = new int[jagArray.Length, jagArray.Length];
+        state[0, 0] = jagArray[0][0];
+        for (int i = 1; i < jagArray.Length; i++)
         {
-            if (cv > MaxV)
-                MaxV = cv;
-
-            return;
+            for (int j = 0; j < jagArray[i].Length; j++)
+            {
+                if (j == 0)
+                    state[i, j] = state[i - 1, j] + jagArray[i][j];
+                else if (j == i)
+                    state[i, j] = state[i - 1, j - 1] + jagArray[i][j];
+                else
+                {
+                    int topLeft = state[i - 1, j - 1];
+                    int topRight = state[i - 1, j];
+                    state[i, j] = Math.Min(topLeft, topLeft) + jagArray[i][j];
+                }
+            }
         }
 
-        f(i + 1, cw, cv); // don't add i 
-
-        if (cw + _weights[i] <= _w)
+        int minLen = int.MaxValue;
+        for (int j = 0; j < jagArray.Length; j++)
         {
-            f(i + 1, cw + _weights[i], cv + _values[i]); // add i
+            if (minLen > state[jagArray.Length - 1, j])
+            {
+                minLen = state[jagArray.Length - 1, j];
+            }
         }
+
+        return minLen;
+    }
+
+    /// <summary>
+    /// dynamic programming solution 2
+    /// </summary>
+    /// Param:
+    ///   matrix: yanghui triangle.
+    /// Return:
+    ///     int: minimum path length
+    public static int DP2(int[][] jagArray)
+    {
+        int len = jagArray.Length;
+        int[] state = jagArray[len - 1];
+        for (int i = len - 2; i >= 0; i--)
+        {
+            for (int j = 0; j < jagArray[i].Length; j++)
+            {
+                try
+                {
+                    state[j] = Math.Min(state[j], state[j + 1]) + jagArray[i][j];
+                }
+                catch (System.Exception)
+                {
+                    throw;
+                }
+            }
+        }
+        return state[0];
     }
 }
