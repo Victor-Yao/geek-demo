@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Advanced\advanced.csproj" />
+    <ProjectReference Include="..\Advanced\Advanced.csproj" />
   </ItemGroup>
 
 </Project>
