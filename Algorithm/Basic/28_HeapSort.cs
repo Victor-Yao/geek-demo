@@ -48,9 +48,9 @@ public class MaxHeap : Heap
         if (_count == 0)
             return;
 
-        int ret = _a[1];
         _a[1] = _a[_count];
-        HeapSort.Heapify(_a, _count, 1); // heapify from top to bottom
+        --_count;
+        HeapSort.Heapify(_a, _count, 1); // heapify max heap, top -> bottom
     }
 }
 
@@ -81,9 +81,9 @@ public class MinHeap : Heap
         if (_count == 0)
             return;
 
-        int ret = _a[1];
         _a[1] = _a[_count];
-        MinHeapify(_a, _count, 1); // heapify from top to bottom
+        --_count;
+        MinHeapify(_a, _count, 1); // heapify max heap, top -> bottom
     }
 
     /// <summary>
