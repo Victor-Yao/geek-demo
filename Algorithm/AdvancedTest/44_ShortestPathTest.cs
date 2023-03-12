@@ -8,7 +8,9 @@ public class ShortestPathTest
     [TestInitialize]
     public void InitDirectedGraph()
     {
-        var dataSet = new int[,]{
+        // directed weight edges
+        // {s,t,w}
+        var edges = new int[,]{
             {0,1,10},
             {0,4,15},
             {1,2,15},
@@ -20,9 +22,9 @@ public class ShortestPathTest
         int vertexNum = 6;
 
         graph = new DirectedWeightGraph(vertexNum);
-        for (int i = 0; i < dataSet.GetLength(0); i++)
+        for (int i = 0; i < edges.GetLength(0); i++)
         {
-            graph.AddEdge(dataSet[i, 0], dataSet[i, 1], dataSet[i, 2]);
+            graph.AddEdge(edges[i, 0], edges[i, 1], edges[i, 2]);
         }
     }
 
