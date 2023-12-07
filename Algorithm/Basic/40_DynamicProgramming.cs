@@ -229,55 +229,64 @@ public class AdvancedKnapsack
     }
 
     /// <summary>
-    /// shopping cart discount problem (Double 11)- select 'n' goods from cart make the cost sum minimum and meet discount condition。
+    /// shopping cart discount problem (Double 11)- select 'n' goods from cart make the cost sum minimum and meet discount condition, ie. over 200 get 50 free
     /// </summary>
     /// Param:
     ///   prices: goods price array
-    ///   n: number of goods
+    ///   lowerLimit: discount condition, over 200 get 50 free
     ///   w: discount condition
-    public static void ShoppingDiscount(int[] prices, int n, int w)
+    private static void ShoppingCartDP2D(int[] prices, int lowerLimit)
     {
-        int limit = 3 * w;// 超过满减条件3倍 没有意义
-        var states = new bool[n, limit + 1];
+        var limit = lowerLimit * 3;
+        var states = new bool[prices.Length, limit + 1];// row: item number; col: price
+        for (int i = 0; i < prices.Length; i++)
+        {
+            for (int j = 0; j < limit + 1; j++)
+                states[i, j] = false;
+        }
+
         states[0, 0] = true;
         if (prices[0] <= limit)
             states[0, prices[0]] = true;
 
-        for (int i = 1; i < n; i++)
+        for (int i = 1; i < prices.Length; i++)
         {
-            for (int j = 0; j <= limit; j++)
+            for (int j = 0; j < limit + 1; j++)
             {
                 if (states[i - 1, j] == true)
                     states[i, j] = states[i - 1, j];
             }
 
-            for (int j = 0; j <= limit - prices[i]; j++)
+            for (int j = 0; j < limit - prices[i]; j++)
             {
                 if (states[i - 1, j] == true)
                     states[i, j + prices[i]] = true;
-
             }
         }
 
-        int k;
-        for (k = 0; k < limit + 1; k++)
+        int k = lowerLimit;
+        for (; k < limit + 1; k++)
         {
-            if (states[n - 1, k] == true)
+            if (states[prices.Length - 1, k] == true)
                 break;
         }
-        if (k == limit + 1) //无解
-            return;
 
-        for (int i = n - 1; i >= 1; i--)
+        if (k == limit + 1)
+            Console.WriteLine("No result");
+        else
+            Console.WriteLine($"minimum total prices is {k}");
+
+        for (int i = prices.Length - 1; i >= 1; i--)
         {
-            if (k - prices[i] >= 0 && states[i - 1, k - prices[i]] == true)
+            if (k - prices[i] >= 0 && states[prices.Length - 1, k - prices[i]] == true)
             {
-                Console.Write(prices[i] + " ");
+                Console.WriteLine($"Selected item id: {i}, price: {prices[i]}");
                 k = k - prices[i];
-            } // else 没有购买这个商品，k不变。
+            }
         }
+
         if (k != 0)
-            Console.Write(prices[0]);
+            Console.WriteLine($"Selected item id: {0}, price: {prices[0]}");
     }
 }
 
