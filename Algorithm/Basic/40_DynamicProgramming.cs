@@ -249,6 +249,7 @@ public class AdvancedKnapsack
         if (prices[0] <= limit)
             states[0, prices[0]] = true;
 
+        // status transfer
         for (int i = 1; i < prices.Length; i++)
         {
             for (int j = 0; j < limit + 1; j++)
@@ -264,6 +265,7 @@ public class AdvancedKnapsack
             }
         }
 
+        // output selected items
         int k = lowerLimit;
         for (; k < limit + 1; k++)
         {
