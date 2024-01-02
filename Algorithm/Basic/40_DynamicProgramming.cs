@@ -390,6 +390,34 @@ public class YanghuiTriangle
         return minLen;
     }
 
+    public static int DP1(int[,] matrix)
+    {
+        var len = matrix.GetLength(1);
+        var states = new int[len, len];
+        states[0, 0] = matrix[0, 0];
+        for (int i = 1; i < len; i++)
+        {
+            for (int j = 0; j < i + 1; j++)
+            {
+                if (j == 0)
+                    states[i, j] = matrix[i, j] + states[i - 1, j];
+                else if (j == i)
+                    states[i, j] = matrix[i, j] + states[i - 1, j - 1];
+                else
+                    states[i, j] = matrix[i, j] + Math.Min(states[i - 1, j - 1], states[i - 1, j]);
+            }
+        }
+
+        var minLen = states[len - 1, 0];
+        for (int i = 1; i < len; i++)
+        {
+            if (minLen > states[len - 1, i])
+                minLen = states[len - 1, i];
+        }
+
+        return minLen;
+    }
+
     /// <summary>
     /// dynamic programming solution 2
     /// </summary>
@@ -405,16 +433,28 @@ public class YanghuiTriangle
         {
             for (int j = 0; j < jagArray[i].Length; j++)
             {
-                try
-                {
-                    state[j] = Math.Min(state[j], state[j + 1]) + jagArray[i][j];
-                }
-                catch (System.Exception)
-                {
-                    throw;
-                }
+                state[j] = Math.Min(state[j], state[j + 1]) + jagArray[i][j];
             }
         }
         return state[0];
+    }
+
+    public static int DP2(int[,] matrix)
+    {
+        int len = matrix.GetLength(0);
+        var states = new int[len];
+        for (int i = 0; i < len; i++)
+        {
+            states[i] = matrix[len - 1, i];
+        }
+
+        for (int i = len - 2; i >= 0; i--)
+        {
+            for (int j = 0; j < i + 1; j++)
+            {
+                states[j] = Math.Min(states[j], states[j + 1]) + matrix[i, j];
+            }
+        }
+        return states[0];
     }
 }

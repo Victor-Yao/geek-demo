@@ -53,7 +53,8 @@ public class AdvancedKnapsackTest
 [TestClass]
 public class YanghuiTriangeTest
 {
-    // int[,] matrix = new int[,] { { 5, 0, 0, 0, 0 }, { 7, 8, 0, 0, 0 }, { 2, 3, 4, 0, 0 }, { 4, 9, 6, 1, 0 }, { 2, 7, 9, 4, 5 } };
+    
+
     int[][] triangle = new int[5][]{
         new int[] {5},
         new int[] {7, 8},
@@ -87,6 +88,22 @@ public class YanghuiTriangeTest
     public void TestTriangleDP2()
     {
         var ret = YanghuiTriangle.DP2(triangle);
+        Assert.AreEqual(20, ret);
+    }
+
+    int[,] matrix = new int[,] { { 5, 0, 0, 0, 0 }, { 7, 8, 0, 0, 0 }, { 2, 3, 4, 0, 0 }, { 4, 9, 6, 1, 0 }, { 2, 7, 9, 4, 5 } };
+
+    [TestMethod]
+    public void TestMatrixDP1()
+    {
+        var ret = YanghuiTriangle.DP1(matrix);
+        Assert.AreEqual(20, ret);
+    }
+
+    [TestMethod]
+    public void TestMatrixDP2()
+    {
+        var ret = YanghuiTriangle.DP2(matrix);
         Assert.AreEqual(20, ret);
     }
 }
