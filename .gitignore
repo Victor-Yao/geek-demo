@@ -180,3 +180,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# vs solution files
+*.sln
