@@ -227,7 +227,13 @@ public class AdvancedKnapsack
 
         return maxValue;
     }
+}
 
+/// <summary>
+/// 
+/// </summary>
+public class ShoppingCart
+{
     /// <summary>
     /// shopping cart discount problem (Double 11)- select 'n' goods from cart make the cost sum minimum and meet discount condition, ie. over 200 get 50 free
     /// </summary>
@@ -235,7 +241,7 @@ public class AdvancedKnapsack
     ///   prices: goods price array
     ///   lowerLimit: discount condition, over 200 get 50 free
     ///   w: discount condition
-    private static void ShoppingCartDP2D(int[] prices, int lowerLimit)
+    public static void DP2D(int[] prices, int lowerLimit)
     {
         var limit = lowerLimit * 3;
         var states = new bool[prices.Length, limit + 1];// row: item number; col: price

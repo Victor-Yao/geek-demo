@@ -51,10 +51,22 @@ public class AdvancedKnapsackTest
 }
 
 [TestClass]
+public class ShoppingCartTest
+{
+    [TestMethod]
+    public void TestDP2D()
+    {
+        var items = new int[] { 63, 64, 84, 19, 28, 45, 83, 82, 47, 39, 8, 52, 4, 49, 74, 52, 32, 21, 19, 23 };
+        var limit = 200;
+
+        ShoppingCart.DP2D(items, limit);
+        Assert.IsTrue(true);
+    }
+}
+
+[TestClass]
 public class YanghuiTriangeTest
 {
-    
-
     int[][] triangle = new int[5][]{
         new int[] {5},
         new int[] {7, 8},
