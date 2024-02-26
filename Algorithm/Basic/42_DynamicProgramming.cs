@@ -258,27 +258,25 @@ public class LongestIS
     /// {3,2,1,4}
     public static int LongestISDP(int[] array)
     {
-        if (array.Length < 2)
-            return array.Length;
+        if (array.Length == 0)
+            return 0;
 
         var maxLen = new int[array.Length];
-        // Array.Fill(lengths, 1);
         maxLen[0] = 1;
+        var ret = 1;
+
         for (int i = 1; i < array.Length; i++)
         {
+            maxLen[i] = 1;
             for (int j = 0; j < i; j++)
             {
                 if (array[i] > array[j])
                     maxLen[i] = Math.Max(maxLen[i], maxLen[j] + 1);
             }
+
+            ret = Math.Max(ret, maxLen[i]);
         }
 
-        int ret = 0;
-        for (int i = 0; i < maxLen.Length; i++)
-        {
-            if (ret < maxLen[i])
-                ret = maxLen[i];
-        }
         return ret;
     }
 }
